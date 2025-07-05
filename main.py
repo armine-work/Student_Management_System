@@ -28,8 +28,8 @@ try:
                 averageGrade = (thisYearAverage + lastYearAverage) / 2
                 print("The average grade of 2 years is:", averageGrade)
                 if 0 <= averageGrade < 50:
-                    print(f"The student {full_name} fails for the next year, because the average grade is less than: {averageGrade}")
+                    print(f"The student {full_name} fails for the next year, because the average grade: {averageGrade} is less than 50 ")
                 else:
-                    print(f"The student {full_name} passes to the next year, as the average grade is greater than {averageGrade}")
+                    print(f"The student {full_name} passes to the next year, as the average grade: {averageGrade} is greater than or equals 50 ")
 except ValueError:
     print("Please enter a numerical value for age and grades.")
