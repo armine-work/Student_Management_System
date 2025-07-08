@@ -85,8 +85,3 @@ if students_amount_input.isdigit():
             break
 else:
     print("Please enter a valid number.")
-
-
-
-
-
