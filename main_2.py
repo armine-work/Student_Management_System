@@ -112,4 +112,3 @@ for i in range(len(st_names_list)):
     print(f" {i+1}) Full name: {st_names_list[i]}, Age: {st_age_list[i]},"
           f" This year avg. grade: {st_this_year_grade[i]}, Lastyear avg. grade: {st_last_year_grade[i]},"
           f" The avg. grade of two years: {st_avg_grade[i]}")
-
