@@ -149,4 +149,3 @@ print("\n________________________________________FINAL RESULTS__________________
 for i in range(len(grades_all_list)):
     print(f"{i +1}) Name: {students_data_list[i]['name']}, Age: {students_data_list[i]['age']}, Email: {students_data_list[i]['email']}"
           f"\n Grades: This Year: {grades_all_list[i][0]}, Last Year: {grades_all_list[i][1]}, Avg. Grade: {grades_all_list[i][2]} \n")
-
