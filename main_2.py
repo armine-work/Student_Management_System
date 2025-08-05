@@ -1,17 +1,3 @@
-# Create a script that gets the full name, age, and average grade of a student for the current year and average grade for the previous year.
-# If the age of the student is less than 18, print the student’s name, age, and tell that he/she is a Primary School student;
-#   otherwise, print that the student is a college student
-# Print the average grade of the student for two years.
-#  If it is less than 50, tell that the student fails;# otherwise, tell that the student passes.
-# Change the code to accept data for more than one student
-# Add one more input, which asks about inputting a new student or stopping.
-# If yes, continue inputting; if no, stop inputting and print all students’ data.
-# Add one more input that asks about the maximum number of students.
-# And automatically stop inputting students’ data when it reaches that number
-# Change the code to use list(s) for saving the inserted students data
-# Use the lists to print the necessary data
-# Refactor my code to use at least two types of data structures for working with data:
-# For example: Personal data of students as a dictionary, Grades as a tuples
 # With string operation, make better formatting for students’ names, like removing extra spaces, and make capitalized name parts
 # Create school email addresses for students in this format: name.surname@myschool.armstqb and store them in a data structure associated with students.
 # Make sure the uniqueness of the email addresses
@@ -19,16 +5,31 @@
 students_data_list = []
 grades_all_list = []
 ################################################## get user full name
-def get_username(name_input):
-    space_count = name_input.count(" ")
-    if space_count !=0:
-        name_input = name_input.replace(" ", "")
-    if name_input.islower() == True:
-        name_input = name_input.capitalize()
-    if name_input.isupper() == True:
-        name_input = name_input.lower().capitalize()
+def get_full_name(name, surname):
+    student_full_name = name + " " + surname
+    student_full_name_split = student_full_name.split()
+    student_full_name = " ".join(student_full_name_split)
+    return student_full_name
+    #print("full name:", student_full_name)
 
-    return name_input
+def get_email(student_full_name):
+    ########################################################### get student email
+    space_count = student_full_name.count(" ")
+    username = student_full_name.replace(" ", ".")
+    email_base = username.lower()
+    email_domain = "@myschool.armstqb"
+    email = email_base + email_domain
+    # print("email:", email)
+    ########################################################### check student email uniqueness
+    existing_email = []
+    for student in students_data_list:
+        existing_email.append(student["email"])
+    suffix = 1
+    while email in existing_email:
+        email = email_base + str(suffix) + email_domain
+        suffix += 1
+    student_email = email
+    return student_email
 
 ################################################### get user age
 def get_student_age(student_full_name):
@@ -101,25 +102,15 @@ if students_amount_input.isdigit():
         another = input("Do you want to add a student? (yes/no): ").lower().strip()
         if another == 'yes':
             student_count += 1
-            ########################################################### get student full name
-            student_name = get_username(name_input=input("What is student's name? "))
-            student_surname = get_username(name_input=input("What is student's surname? "))
-            student_full_name = student_name + " " + student_surname
+            ########################################################### call student full name
+            student_full_name = get_full_name(name=input("What is student's name? ").strip().title(),
+                                         surname=input("What is student's surname? ").strip().title())
+            print("full name:", student_full_name)
             ########################################################### call student age
             student_age = get_student_age(student_full_name)
-            ########################################################### get student email
-            email_base = student_name.lower() + "." + student_surname.lower()
-            email_domain = "@myschool.armstqb"
-            email = email_base + email_domain
-            ########################################################### check student email uniqueness
-            existing_email = []
-            for student in students_data_list:
-                existing_email.append(student["email"])
-            suffix = 1
-            while email in existing_email:
-                email = email_base + str(suffix) + email_domain
-                suffix += 1
-            student_email = email
+            ########################################################## call students email
+            student_email = get_email(student_full_name)
+            print("email:", student_email)
             ######################################################### store student data in a dictionary
             personal_data = {
                 "name": student_full_name,
