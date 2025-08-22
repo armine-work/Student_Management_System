@@ -1,6 +1,4 @@
-# With string operation, make better formatting for students’ names, like removing extra spaces, and make capitalized name parts
-# Create school email addresses for students in this format: name.surname@myschool.armstqb and store them in a data structure associated with students.
-# Make sure the uniqueness of the email addresses
+import os
 
 students_data_list = []
 grades_all_list = []
@@ -9,12 +7,11 @@ def get_full_name(name, surname):
     student_full_name = name + " " + surname
     student_full_name_split = student_full_name.split()
     student_full_name = " ".join(student_full_name_split)
-    return student_full_name
     #print("full name:", student_full_name)
+    return student_full_name
 
+########################################################### get student email
 def get_email(student_full_name):
-    ########################################################### get student email
-    space_count = student_full_name.count(" ")
     username = student_full_name.replace(" ", ".")
     email_base = username.lower()
     email_domain = "@myschool.armstqb"
@@ -37,7 +34,7 @@ def get_student_age(student_full_name):
         age_input = input("What is student's age? ")
         if age_input.replace('.', '', 1).isnumeric():
             age = float(age_input)if '.' in age_input else int(age_input)
-            # checking for valid age range
+            ############################################################# checking for valid age range
             if age <= 0 or age >= 120:
                 print("Please, enter valid age between 1-120.")
             elif 0 < age < 6:
@@ -79,64 +76,127 @@ def get_last_year_grade():
             print("Error, enter numeric, positive value for Last Year Grade.")
 
 #################################################################################### get users average grade for 2 years
-def get_averageGrade():
+def get_averageGrade(student_full_name, this_year_grade, last_year_grade):
     averageGrade = (this_year_grade + last_year_grade) / 2
-    #print("The average grade of 2 years is:", averageGrade)
     if 0 <= averageGrade < 50:
-        print(
-            f"The student, {student_full_name}, fails for the next year, because the average grade [{averageGrade}] is less than 50.")
+        print(f"The student, {student_full_name}, fails for the next year, because the average grade [{averageGrade}] is less than 50.")
     elif averageGrade == 50:
-        print(
-            f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{averageGrade}] equals to 50.")
+        print(f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{averageGrade}] equals to 50.")
     else:
         print(f"The student, {student_full_name}, passes to the next year, as the average grade [{averageGrade}] is more that 50.")
     return averageGrade
 
-##########################################################################################################################################
-students_amount_input  = input("How many students do you have? ").lower()
-if students_amount_input.isdigit():
-    students_amount = int(students_amount_input)
-    student_count = 0
+############################################################################# get student's data from file
+def get_students_from_file(file_path):
+    try:
+        with open(file_path, "r") as students_file:
+            lines = students_file.readlines()
+            for line in lines:
+                line = line.strip()
+                parts = line.split(',')
+                if len(parts) < 4:
+                    print("Invalid line in the file, skipping:", line)
+                    continue
+                else:
+                    student_full_name = parts[0].strip()
+                    student_age = int(parts[1].strip())
+                    this_year_grade = float(parts[2].strip())
+                    last_year_grade = float(parts[3].strip())
 
-    while student_count < students_amount:
-        another = input("Do you want to add a student? (yes/no): ").lower().strip()
-        if another == 'yes':
-            student_count += 1
-            ########################################################### call student full name
-            student_full_name = get_full_name(name=input("What is student's name? ").strip().title(),
-                                         surname=input("What is student's surname? ").strip().title())
-            print("full name:", student_full_name)
-            ########################################################### call student age
-            student_age = get_student_age(student_full_name)
-            ########################################################## call students email
-            student_email = get_email(student_full_name)
-            print("email:", student_email)
-            ######################################################### store student data in a dictionary
-            personal_data = {
-                "name": student_full_name,
-                "age": student_age,
-                "email": student_email
-            }
-            students_data_list.append(personal_data)
-            ######################################################### call students grades data and store in a tuple
-            this_year_grade = get_this_year_grade()
-            last_year_grade = get_last_year_grade()
-            averageGrade = get_averageGrade()
-            ######################################################## store grades data in a tuple
-            grades_tuple = tuple((this_year_grade, last_year_grade, averageGrade))
-            ######################################################## store grades data in a list so can be added more data
-            grades_all_list.append(grades_tuple)
+                    student_email = get_email(student_full_name)
+                    averageGrade = get_averageGrade(student_full_name, this_year_grade, last_year_grade)
 
-        elif another == 'no':
-            print("Done with Student Management System ! ")
-            break
+                    students_data_list.append({"name": student_full_name,
+                        "age": student_age,
+                        "email": student_email,
+                        "this_year_grade": this_year_grade,
+                        "last_year_grade": last_year_grade,
+                        "averageGrade": averageGrade})
+            return students_data_list
+        
+    except FileNotFoundError as error:
+        print("File not found. Please try again.", error)
+        return None
+    except Exception as error:
+        print("An error appeared:", error)
+        return None
+
+############################################### ask import students data manually of from file
+while True:
+    file_prompt = input("Do you want to provide students list manually? (yes/no): ").lower().strip()
+    if file_prompt == 'yes':
+    ####################################################################################
+        students_amount_input = input("How many students do you have? ").lower()
+        if students_amount_input.isdigit():
+            students_amount = int(students_amount_input)
+            student_count = 0
+            while student_count < students_amount:
+                another = input("Add a new student? (yes/no): ").lower().strip()
+                if another == 'yes':
+                    student_count += 1
+                    ########################################################### call student full name
+                    student_full_name = get_full_name(name=input("What is student's name? ").strip().title(),
+                                                 surname=input("What is student's surname? ").strip().title())
+                    #print("full name:", student_full_name)
+                    ########################################################### call student age
+                    student_age = get_student_age(student_full_name)
+                    ########################################################## call students email
+                    student_email = get_email(student_full_name)
+                    #print("email:", student_email)
+                    ########################################################## call students grades
+                    this_year_grade = get_this_year_grade()
+                    last_year_grade = get_last_year_grade()
+                    averageGrade = get_averageGrade(student_full_name, this_year_grade, last_year_grade)
+                    ######################################################### store student data in a dictionary
+                    personal_data = {
+                        "name": student_full_name,
+                        "age": student_age,
+                        "email": student_email,
+                        "this_year_grade": this_year_grade,
+                        "last_year_grade": last_year_grade,
+                        "averageGrade": averageGrade,
+                    }
+                    students_data_list.append(personal_data)
+                elif another == 'no':
+                    print("Done with Student Management System ! ")
+                    break
+                else:
+                    print("Please enter yes or no.")
         else:
-            print("Please enter yes or no.")
-else:
-    print("Please, enter valid number for student's amount.")
+            print("Please, enter valid number for student's amount.")
+            continue
+        break
+    ################################################################# check file's path correctness
+    elif file_prompt == 'no':
+        path_input = input("Enter the path of the file: ").strip()
+        file_name = "StudentsList.txt"
+        if os.path.basename(path_input) == file_name:
+            file_path = path_input
+        else:
+            file_path = os.path.join(path_input, file_name)
+        ################################################################# import students data from file
+        students_data_list = get_students_from_file(file_path)
+        break
+    else:
+        print("Please enter yes or no.")
 
-########################################################################################################################
+
+################################################################################## write students data in the StudentsReport.txt
+with open("StudentsReport.txt", "w") as report:
+    for i, data in enumerate(students_data_list):
+        report.write(f"{i + 1}) Name: {data['name']}, Age: {data['age']}, Email: {data['email']}"
+                     f"\n Grades: This Year: {data['this_year_grade']}, "
+                     f"Last Year: {data['last_year_grade']}, "
+                     f"Avg. Grade: {data['averageGrade']} \n")
+print("Students data is stored in StudentsReport.txt")
+
+###################################################################################### print Students data
 print("\n________________________________________FINAL RESULTS________________________________________\n")
-for i in range(len(grades_all_list)):
-    print(f"{i +1}) Name: {students_data_list[i]['name']}, Age: {students_data_list[i]['age']}, Email: {students_data_list[i]['email']}"
-          f"\n Grades: This Year: {grades_all_list[i][0]}, Last Year: {grades_all_list[i][1]}, Avg. Grade: {grades_all_list[i][2]} \n")
+if len(students_data_list) == 0:
+    print("No students data was provided, closing Student Management System.")
+else:
+    for i, data in enumerate(students_data_list):
+        print(f"{i +1}) Name: {data['name']}, Age: {data['age']}, Email: {data['email']}"
+              f"\n Grades: This Year: {data['this_year_grade']}, "
+                         f"Last Year: {data['last_year_grade']}, "
+                         f"Avg. Grade: {data['averageGrade']} \n")
