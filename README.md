@@ -33,3 +33,7 @@ feature_data_from_files (branch)
 • If No, the program should read data from a file called “StudentsList.txt”. File path must be an additional input.  
 •    Input file one line: Name, Surname, age, pyg, cyg.  
 • Write the students’ data to a file called “StudentsReport.txt”.  
+
+feature_modules (branch)  
+• Create functions for the code (repeated codes and logical units must be in functions)  
+• Create module(s) and/or packages for those functions  
