@@ -1,10 +1,35 @@
+import os
 import logging
 logger = logging.getLogger(__name__)
 
 from app.students_data import get_email
-from app.grade_calculation import get_averageGrade
+from app.grade_calculation import get_average_grade
 
 students_data_list = []
+
+################################################### get correct file path
+def get_correct_file_path(path_input):
+    while True:
+        file_name = "StudentsList.txt"
+        if os.path.exists(path_input):
+            logger.debug(f"Correct file path [{path_input}]")
+            if os.path.basename(path_input):
+                logger.debug(f"path has basename [{path_input}]")
+                if os.path.basename(path_input)== file_name:
+                    file_path = path_input
+                    logger.debug(f"file path is correct: [{file_path}]")
+                    return file_path
+                else:
+                    file_path = os.path.join(path_input, file_name)
+                    logger.debug(f"file name is added to folder path: [{file_path}]")
+                    return file_path
+            else:
+                logger.debug(f"path doesn't have base name ;;;;;;;;;;.[{path_input}]")
+                return None
+        else:
+            logger.debug(f"File path incorrect ---- [{path_input}]")
+            return None
+
 ############################################################################# get student's data from file
 def get_students_from_file(file_path):
     try:
@@ -30,8 +55,8 @@ def get_students_from_file(file_path):
                     student_email = get_email(student_full_name)
                     logger.debug(f"Student's email from file: [{student_email}]")
                     ############################################ get average grade of 2 years
-                    averageGrade = get_averageGrade(student_full_name, this_year_grade, last_year_grade)
-                    logger.debug(f"Student's average grade: [{averageGrade}]")
+                    average_grade = get_average_grade(student_full_name, this_year_grade, last_year_grade)
+                    logger.debug(f"Student's average grade: [{average_grade}]")
                     ############################################  store students data in a list of dictionary
                     students_data_list.append({
                         "name": student_full_name,
@@ -39,7 +64,7 @@ def get_students_from_file(file_path):
                         "email": student_email,
                         "this_year_grade": this_year_grade,
                         "last_year_grade": last_year_grade,
-                        "averageGrade": averageGrade})
+                        "average_grade": average_grade})
             return students_data_list
     except FileNotFoundError as error:
         print("File not found. Please try again.", error)
@@ -59,6 +84,8 @@ def write_to_file(students_data_list):
             report.write(f"{i + 1}) Name: {data['name']}, Age: {data['age']}, Email: {data['email']}"
                          f"\n Grades: This Year: {data['this_year_grade']}, "
                          f"Last Year: {data['last_year_grade']}, "
-                         f"Avg. Grade: {data['averageGrade']} \n ")
+                         f"Avg. Grade: {data['average_grade']} \n ")
     logger.info("Students data is stored in StudentsReport.txt")
+
+
 

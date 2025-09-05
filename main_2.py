@@ -1,13 +1,13 @@
 import os
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    filename= "Loggs.txt",
+                    filename= "Logs.txt",
                     format='%(levelname)s - %(name)s - "%(message)s" - %(asctime)s',
                     datefmt='%m/%d/%Y %H:%M:%S %p',
                     filemode='w')
 
 from app.students_data import *
-from app.validation import get_number , get_full_name, get_correct_file_path
+from app.validation import get_number, get_full_name
 from app.grade_calculation import *
 from app.data_files_usage import *
 
@@ -43,8 +43,8 @@ while True:
                 logging.debug(f"Student's This year grade: [{this_year_grade}]")
                 last_year_grade = get_last_year_grade()
                 logging.debug(f"Student's Last year grade: [{last_year_grade}]")
-                averageGrade = get_averageGrade(student_full_name, this_year_grade, last_year_grade)
-                logging.debug(f"Student's Average Grade: [{averageGrade}]")
+                average_grade = get_average_grade(student_full_name, this_year_grade, last_year_grade)
+                logging.debug(f"Student's Average Grade: [{average_grade}]")
                 ######################################################### store student data in a dictionary
                 personal_data = {
                     "name": student_full_name,
@@ -52,7 +52,7 @@ while True:
                     "email": student_email,
                     "this_year_grade": this_year_grade,
                     "last_year_grade": last_year_grade,
-                    "averageGrade": averageGrade,
+                    "average_grade": average_grade,
                 }
                 students_data_list.append(personal_data)
             elif another == 'no':
@@ -87,9 +87,9 @@ else:
         print(f"{i +1}) Name: {data['name']}, Age: {data['age']}, Email: {data['email']}"
               f"\n Grades: This Year: {data['this_year_grade']}, "
                          f"Last Year: {data['last_year_grade']}, "
-                         f"Avg. Grade: {data['averageGrade']} \n ")
+                         f"Avg. Grade: {data['average_grade']} \n ")
         logging.info(f"{i +1}) Name: {data['name']}, Age: {data['age']}, Email: {data['email']}"
               f"Grades: This Year: {data['this_year_grade']}, "
                          f"Last Year: {data['last_year_grade']}, "
-                         f"Avg. Grade: {data['averageGrade']} ")
+                         f"Avg. Grade: {data['average_grade']} ")
 

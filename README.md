@@ -40,3 +40,10 @@ feature_modules (branch)
 
 feature_logging (branch)  
 • Add logs for all print functions, and store them in separate file.  
+
+feature_class (branch)  
+• Create a Student class with its constructor, attributes, and methods.  
+• All input data related to student needs must be kept in the class object(s)  
+• All output data should be stored or taken from the student objects   
+• Hints:  
+• • You can create a list of objects of the Student class and manipulate it  

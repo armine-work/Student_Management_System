@@ -20,7 +20,7 @@ def get_email(student_full_name):
     return email
 
 
-################################################### get user age
+################################################## get user age
 def get_student_age(student_full_name):
     while True:
         age = get_number(user_input="What is student's age? ", error_msg= "Please, enter valid age between 1-120.")

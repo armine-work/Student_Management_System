@@ -2,7 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from app.validation import get_number
-################################################################################## get users average grade for This year
+################################################################################# get users average grade for This year
 def get_this_year_grade():
     # converting user's input to numeric value for This Year Average Grade data
     while True:
@@ -15,7 +15,7 @@ def get_this_year_grade():
             return thisYearAverage
 
 
-################################################################################### get users average grade for LAST year
+################################################################################## get users average grade for LAST year
 def get_last_year_grade():
     #converting user's input to numeric value for Last Year Average Grade data
     while True:
@@ -29,16 +29,16 @@ def get_last_year_grade():
 
 
 #################################################################################### get users average grade for 2 years
-def get_averageGrade(student_full_name, this_year_grade, last_year_grade):
-    averageGrade = (this_year_grade + last_year_grade) / 2
-    # print("The average grade of 2 years is:", averageGrade)
-    if 0 <= averageGrade < 50:
-        print(f"The student, {student_full_name}, fails for the next year, because the average grade- [{averageGrade}] is less than 50.")
-        logger.info(f"The student, {student_full_name}, fails for the next year, because the average grade- [{averageGrade}] is less than 50.")
-    elif averageGrade == 50:
-        print(f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{averageGrade}] equals to 50.")
-        logger.info(f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{averageGrade}] equals to 50.")
+def get_average_grade(student_full_name, this_year_grade, last_year_grade):
+    average_grade = (this_year_grade + last_year_grade) / 2
+    # print("The average grade of 2 years is:", average_grade)
+    if 0 <= average_grade < 50:
+        print(f"The student, {student_full_name}, fails for the next year, because the average grade- [{average_grade}] is less than 50.")
+        logger.info(f"The student, {student_full_name}, fails for the next year, because the average grade- [{average_grade}] is less than 50.")
+    elif average_grade == 50:
+        print(f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{average_grade}] equals to 50.")
+        logger.info(f"The student, {student_full_name}, passes to the next year with the minimum passing grade- [{average_grade}] equals to 50.")
     else:
-        print(f"The student, {student_full_name}, passes to the next year, as the average grade- [{averageGrade}] is more that 50.")
-        logger.info(f"The student, {student_full_name}, passes to the next year, as the average grade- [{averageGrade}] is more that 50.")
-    return averageGrade
+        print(f"The student, {student_full_name}, passes to the next year, as the average grade- [{average_grade}] is more that 50.")
+        logger.info(f"The student, {student_full_name}, passes to the next year, as the average grade- [{average_grade}] is more that 50.")
+    return average_grade
